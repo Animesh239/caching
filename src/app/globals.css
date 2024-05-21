@@ -6,13 +6,19 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --primary-rgb: 33, 150, 243; /* Example primary color */
+  --secondary-rgb: 76, 175, 80; /* Example secondary color */
+  --accent-rgb: 255, 193, 7; /* Example accent color */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-end-rgb: 34, 34, 34;
+    --primary-rgb: 33, 150, 243; /* Example primary color */
+    --secondary-rgb: 76, 175, 80; /* Example secondary color */
+    --accent-rgb: 255, 193, 7; /* Example accent color */
   }
 }
 
@@ -22,12 +28,36 @@ body {
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
-    )
+    ),
     rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .bg-primary {
+    background-color: rgb(var(--primary-rgb));
+  }
+
+  .text-primary {
+    color: rgb(var(--primary-rgb));
+  }
+
+  .bg-secondary {
+    background-color: rgb(var(--secondary-rgb));
+  }
+
+  .text-secondary {
+    color: rgb(var(--secondary-rgb));
+  }
+
+  .bg-accent {
+    background-color: rgb(var(--accent-rgb));
+  }
+
+  .text-accent {
+    color: rgb(var(--accent-rgb));
   }
 }
