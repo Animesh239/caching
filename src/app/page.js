@@ -16,7 +16,9 @@
 import { useState, useEffect } from 'react';
 import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth, googleProvider } from '../../firebase';
-import Translation from './components/Translation';
+import dynamic from 'next/dynamic';
+// import Translation from './components/Translation';
+const Translation = dynamic(() => import('./components/Translation'),{ssr:false});
 
 export default function Home() {
   const [user, setUser] = useState(null);
