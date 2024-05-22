@@ -1,29 +1,37 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react';
-import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
-import { firestore, auth } from '../../../firebase';
+import { useState, useEffect } from "react";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+import { firestore, auth } from "../../../firebase";
 
 const Translation = () => {
-  const [translation, setTranslation] = useState('');
+  const [translation, setTranslation] = useState("");
   const [savedTranslations, setSavedTranslations] = useState([]);
-  const articleId = 'demo-article';
+  const articleId = "demo-article";
 
   useEffect(() => {
     const fetchTranslations = async () => {
       const userId = auth.currentUser?.uid;
       if (userId) {
-        const translationsRef = collection(firestore, 'translations');
-        const q = query(translationsRef, where('userId', '==', userId), where('articleId', '==', articleId));
+        const translationsRef = collection(firestore, "translations");
+        const q = query(
+          translationsRef,
+          where("userId", "==", userId),
+          where("articleId", "==", articleId)
+        );
         const querySnapshot = await getDocs(q);
-        const translations = querySnapshot.docs.map((doc) => doc.data().translation);
+        const translations = querySnapshot.docs.map(
+          (doc) => doc.data().translation
+        );
         setSavedTranslations(translations);
       }
     };
 
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       // Load current translation from local storage
-      const currentTranslation = localStorage.getItem(`current_translation_${articleId}`);
+      const currentTranslation = localStorage.getItem(
+        `current_translation_${articleId}`
+      );
       if (currentTranslation) {
         setTranslation(currentTranslation);
       }
@@ -33,9 +41,10 @@ const Translation = () => {
   }, [articleId]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       // Save current translation to local storage whenever it changes
       localStorage.setItem(`current_translation_${articleId}`, translation);
+      console.log(translation, " SAVED TO LOCAL STORAGE")
     }
   }, [translation, articleId]);
 
@@ -53,16 +62,16 @@ const Translation = () => {
     };
 
     // Save the new translation as a new document in Firestore
-    await addDoc(collection(firestore, 'translations'), newTranslation);
+    await addDoc(collection(firestore, "translations"), newTranslation);
 
     // Add the new translation to the saved translations list
     setSavedTranslations([...savedTranslations, translation]);
 
     // Clear the textarea
-    setTranslation('');
+    setTranslation("");
 
     // Remove current translation from local storage
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.removeItem(`current_translation_${articleId}`);
     }
   };
@@ -86,7 +95,10 @@ const Translation = () => {
         <div className="mt-4">
           <h3 className="text-lg font-semibold mb-2">Saved Translations:</h3>
           {savedTranslations.map((trans, index) => (
-            <div key={index} className="bg-gray-100 p-4 rounded-md border border-gray-300 mb-2">
+            <div
+              key={index}
+              className="bg-gray-100 p-4 rounded-md border border-gray-300 mb-2"
+            >
               <p>{trans}</p>
             </div>
           ))}

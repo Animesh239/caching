@@ -1,24 +1,16 @@
-"use client"
-// import { useState, useEffect } from 'react';
-// import {auth, firestore} from '../../firebase'
+"use client";
 
-// export default function Home() {
-//   return (
-//     <div>
-//       <h1>Home</h1>
-//     </div>
-//   );
-// }
-
-// pages/index.js
-// pages/index.js
-// pages/index.js
-import { useState, useEffect } from 'react';
-import { signInWithPopup, signOut, onAuthStateChanged, signInWithRedirect } from 'firebase/auth';
-import { auth, googleProvider } from '../../firebase';
-import dynamic from 'next/dynamic';
-// import Translation from './components/Translation';
-const Translation = dynamic(() => import('./components/Translation'),{ssr:true});
+import { useState, useEffect } from "react";
+import {
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { auth, googleProvider } from "../../firebase";
+import dynamic from "next/dynamic";
+const Translation = dynamic(() => import("./components/Translation"), {
+  ssr: false,
+}); // lazy loading
 
 export default function Home() {
   const [user, setUser] = useState(null);
@@ -32,10 +24,9 @@ export default function Home() {
 
   const handleGoogleLogin = async () => {
     try {
-      await signInWithRedirect(auth, googleProvider);
-      // await signInWithPopup(auth, googleProvider);
+      await signInWithPopup(auth, googleProvider);
     } catch (error) {
-      console.error('Error logging in with Google:', error);
+      console.error("Error logging in with Google:", error);
     }
   };
 
@@ -48,7 +39,9 @@ export default function Home() {
       <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full text-center">
         {user ? (
           <>
-            <p className="text-lg font-semibold mb-4">Welcome, {user.displayName}</p>
+            <p className="text-lg font-semibold mb-4">
+              Welcome, {user.displayName}
+            </p>
             <button
               onClick={handleLogout}
               className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 mb-4"
