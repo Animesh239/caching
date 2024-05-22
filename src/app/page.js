@@ -18,7 +18,7 @@ import { signInWithPopup, signOut, onAuthStateChanged, signInWithRedirect } from
 import { auth, googleProvider } from '../../firebase';
 import dynamic from 'next/dynamic';
 // import Translation from './components/Translation';
-const Translation = dynamic(() => import('./components/Translation'),{ssr:false});
+const Translation = dynamic(() => import('./components/Translation'),{ssr:true});
 
 export default function Home() {
   const [user, setUser] = useState(null);
