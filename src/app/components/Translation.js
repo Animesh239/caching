@@ -11,7 +11,6 @@ const Translation = () => {
 
   useEffect(() => {
     const fetchTranslations = async () => {
-      // Load saved translations from Firestore
       const userId = auth.currentUser?.uid;
       if (userId) {
         const translationsRef = collection(firestore, 'translations');
@@ -22,18 +21,22 @@ const Translation = () => {
       }
     };
 
-    // Load current translation from local storage
-    const currentTranslation = localStorage.getItem(`current_translation_${articleId}`);
-    if (currentTranslation) {
-      setTranslation(currentTranslation);
+    if (typeof window !== 'undefined') {
+      // Load current translation from local storage
+      const currentTranslation = localStorage.getItem(`current_translation_${articleId}`);
+      if (currentTranslation) {
+        setTranslation(currentTranslation);
+      }
     }
 
     fetchTranslations();
   }, [articleId]);
 
   useEffect(() => {
-    // Save current translation to local storage whenever it changes
-    localStorage.setItem(`current_translation_${articleId}`, translation);
+    if (typeof window !== 'undefined') {
+      // Save current translation to local storage whenever it changes
+      localStorage.setItem(`current_translation_${articleId}`, translation);
+    }
   }, [translation, articleId]);
 
   const handleTranslationChange = (event) => {
@@ -59,7 +62,9 @@ const Translation = () => {
     setTranslation('');
 
     // Remove current translation from local storage
-    localStorage.removeItem(`current_translation_${articleId}`);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(`current_translation_${articleId}`);
+    }
   };
 
   return (
