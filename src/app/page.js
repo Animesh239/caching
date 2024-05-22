@@ -14,7 +14,7 @@
 // pages/index.js
 // pages/index.js
 import { useState, useEffect } from 'react';
-import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
+import { signInWithPopup, signOut, onAuthStateChanged, signInWithRedirect } from 'firebase/auth';
 import { auth, googleProvider } from '../../firebase';
 import dynamic from 'next/dynamic';
 // import Translation from './components/Translation';
@@ -32,7 +32,8 @@ export default function Home() {
 
   const handleGoogleLogin = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      await signInWithRedirect(auth, googleProvider);
+      // await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error('Error logging in with Google:', error);
     }
